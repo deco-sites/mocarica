@@ -217,7 +217,7 @@ export interface MarketingData {
   utmipage: null;
   utmiPart: null;
   utmiCampaign: null;
-  coupon: null;
+  coupon: null | string;
   marketingTags: string[];
 }
 

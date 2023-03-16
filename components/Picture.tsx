@@ -3,7 +3,7 @@ import { forwardRef } from "preact/compat";
 import { ComponentChildren, createContext, JSX } from "preact";
 import { Head } from "$fresh/runtime.ts";
 
-import { getSrcSet } from "./Image.tsx";
+import { getSrcSet } from "$store/components/Image.tsx";
 
 interface Context {
   preload?: boolean;

@@ -47,7 +47,9 @@ export const createClient = ({
 
       throw new Error(
         `Error while running query:\n${finalQuery}\n\n${
-          JSON.stringify(variables)
+          JSON.stringify(
+            variables,
+          )
         }`,
       );
     }
@@ -70,12 +72,14 @@ export const createClient = ({
       },
     );
 
-  const products = (
-    options: { first: number; after?: string; query?: string },
-  ) =>
-    fetchGraphQL<
-      { products: { nodes: Product[]; pageInfo: { hasNextPage: boolean } } }
-    >(
+  const products = (options: {
+    first: number;
+    after?: string;
+    query?: string;
+  }) =>
+    fetchGraphQL<{
+      products: { nodes: Product[]; pageInfo: { hasNextPage: boolean } };
+    }>(
       gql`
         query GetProducts($first: Int, $after: String, $query: String) {
           products(first: $first, after: $after, query: $query) {
@@ -99,106 +103,106 @@ export const createClient = ({
 };
 
 const ProductVariantFragment = gql`
-fragment ProductVariantFragment on ProductVariant {
-  availableForSale
-  barcode
-  compareAtPrice {
-    amount
-    currencyCode
-  }
-  currentlyNotInStock
-  id
-  image {
-    altText
-    url
-  }
-  price {
-    amount
-    currencyCode
-  }
-  quantityAvailable
-  requiresShipping
-  selectedOptions {
-    name
-    value
-  }
-  sku
-  title
-  unitPrice {
-    amount
-    currencyCode
-  }
-  unitPriceMeasurement {
-    measuredType
-    quantityValue
-    referenceUnit
-    quantityUnit
-  }
-  weight
-  weightUnit
-}
-`;
-
-const ProductFragment = gql`
-fragment ProductFragment on Product {
-  availableForSale
-  createdAt
-  description
-  descriptionHtml
-  featuredImage {
-    altText
-    url
-  }
-  handle
-  id
-  images(first: 10) {
-    nodes {
+  fragment ProductVariantFragment on ProductVariant {
+    availableForSale
+    barcode
+    compareAtPrice {
+      amount
+      currencyCode
+    }
+    currentlyNotInStock
+    id
+    image {
       altText
       url
     }
+    price {
+      amount
+      currencyCode
+    }
+    quantityAvailable
+    requiresShipping
+    selectedOptions {
+      name
+      value
+    }
+    sku
+    title
+    unitPrice {
+      amount
+      currencyCode
+    }
+    unitPriceMeasurement {
+      measuredType
+      quantityValue
+      referenceUnit
+      quantityUnit
+    }
+    weight
+    weightUnit
   }
-  isGiftCard
-  media(first: 10) {
-    nodes {
-      alt
-      previewImage {
+`;
+
+const ProductFragment = gql`
+    fragment ProductFragment on Product {
+      availableForSale
+      createdAt
+      description
+      descriptionHtml
+      featuredImage {
         altText
         url
       }
-      mediaContentType
+      handle
+      id
+      images(first: 10) {
+        nodes {
+          altText
+          url
+        }
+      }
+      isGiftCard
+      media(first: 10) {
+        nodes {
+          alt
+          previewImage {
+            altText
+            url
+          }
+          mediaContentType
+        }
+      }
+      onlineStoreUrl
+      options {
+        name
+        values
+      }
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+        maxVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+      productType
+      publishedAt
+      requiresSellingPlan
+      seo {
+        title
+        description
+      }
+      tags
+      title
+      totalInventory
+      updatedAt
+      variants(first: 10) {
+        nodes {
+          ...ProductVariantFragment
+        }
+      }
+      vendor
     }
-  }
-  onlineStoreUrl
-  options {
-    name
-    values
-  }
-  priceRange {
-    minVariantPrice {
-      amount
-      currencyCode
-    }
-    maxVariantPrice {
-      amount
-      currencyCode
-    }
-  }
-  productType
-  publishedAt
-  requiresSellingPlan
-  seo {
-    title
-    description
-  }
-  tags
-  title
-  totalInventory
-  updatedAt
-  variants(first: 10) {
-    nodes {
-      ...ProductVariantFragment
-    }
-  }
-  vendor
-}
-` + ProductVariantFragment;
+  ` + ProductVariantFragment;

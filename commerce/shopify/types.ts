@@ -97,3 +97,57 @@ export interface UnitPriceMeasurement {
   referenceUnit: null;
   quantityUnit: null;
 }
+
+export interface Cart {
+  id: string;
+  totalQuantity: number;
+  createdAt: string;
+  checkoutUrl: string;
+  updatedAt: string;
+  discountCodes: Array<{
+    applicable: boolean;
+    code: string;
+  }>;
+  cost: {
+    totalAmount: {
+      amount: string;
+      currencyCode: string;
+    };
+    subtotalAmount: {
+      amount: string;
+      currencyCode: string;
+    };
+    checkoutChargeAmount: {
+      amount: string;
+      currencyCode: string;
+    };
+  };
+  lines: {
+    edges: Array<{
+      node: {
+        id: string;
+        quantity: number;
+        cost: {
+          amountPerQuantity: {
+            amount: string;
+            currencyCode: string;
+          };
+          compareAtAmountPerQuantity?: {
+            amount: string;
+            currencyCode: string;
+          };
+        };
+        merchandise: {
+          id: string;
+          title: string;
+          image: {
+            url: string;
+          };
+          product: {
+            title: string;
+          };
+        };
+      };
+    }>;
+  };
+}

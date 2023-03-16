@@ -6,8 +6,10 @@ import type {
   PropertyValue,
   UnitPriceSpecification,
 } from "../types.ts";
+import { OrderForm, OrderFormItem } from "../vtex/types.ts";
 
 import {
+  Cart,
   Product as ProductShopify,
   SelectedOption as SelectedOptionShopify,
   Variant as SkuShopify,
@@ -63,12 +65,14 @@ export const toBreadcrumbList = (
   return {
     "@type": "BreadcrumbList",
     numberOfItems: 1,
-    itemListElement: [{
-      "@type": "ListItem",
-      name: product.title,
-      item: getPath(product, sku),
-      position: 1,
-    }],
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        name: product.title,
+        item: getPath(product, sku),
+        position: 1,
+      },
+    ],
   };
 };
 
@@ -100,11 +104,13 @@ export const toProduct = (
   const allImages = nonEmptyArray([image, ...images.nodes]) ?? [DEFAULT_IMAGE];
   const hasVariant = level < 1 &&
     variants.nodes.map((variant) => toProduct(product, variant, 1));
-  const priceSpec: UnitPriceSpecification[] = [{
-    "@type": "UnitPriceSpecification",
-    priceType: "https://schema.org/SalePrice",
-    price: Number(price.amount),
-  }];
+  const priceSpec: UnitPriceSpecification[] = [
+    {
+      "@type": "UnitPriceSpecification",
+      priceType: "https://schema.org/SalePrice",
+      price: Number(price.amount),
+    },
+  ];
 
   if (compareAtPrice) {
     priceSpec.push({
@@ -133,11 +139,13 @@ export const toProduct = (
       name: product.title,
       additionalProperty: [],
     },
-    image: allImages.map((img): ImageObject => ({
-      "@type": "ImageObject",
-      alternateName: img.altText ?? "",
-      url: img.url,
-    })),
+    image: allImages.map(
+      (img): ImageObject => ({
+        "@type": "ImageObject",
+        alternateName: img.altText ?? "",
+        url: img.url,
+      }),
+    ),
     offers: {
       "@type": "AggregateOffer",
       priceCurrency: price.currencyCode,
@@ -146,15 +154,17 @@ export const toProduct = (
         : Number(price.amount),
       lowPrice: Number(price.amount),
       offerCount: 1,
-      offers: [{
-        "@type": "Offer",
-        price: Number(price.amount),
-        availability: availableForSale
-          ? "https://schema.org/InStock"
-          : "https://schema.org/OutOfStock",
-        inventoryLevel: { value: quantityAvailable },
-        priceSpecification: priceSpec,
-      }],
+      offers: [
+        {
+          "@type": "Offer",
+          price: Number(price.amount),
+          availability: availableForSale
+            ? "https://schema.org/InStock"
+            : "https://schema.org/OutOfStock",
+          inventoryLevel: { value: quantityAvailable },
+          priceSpecification: priceSpec,
+        },
+      ],
     },
   };
 };
@@ -163,3 +173,50 @@ const toPropertyValue = (option: SelectedOptionShopify): PropertyValue => ({
   "@type": "PropertyValue",
   ...option,
 });
+
+export const toOrderForm = (cart: Cart): OrderForm => {
+  return {
+    orderFormId: cart.id,
+    value: Number(cart.cost.totalAmount.amount),
+    clientPreferencesData: {
+      locale: "pt-BR",
+    },
+    storePreferencesData: {
+      currencyCode: "BRL",
+    },
+    items: cart.lines.edges.map(
+      (edge) => ({
+        id: edge.node.id,
+        name: edge.node.merchandise.product.title,
+        skuName: edge.node.merchandise.title,
+        sellingPrice: Number(edge.node.cost.amountPerQuantity.amount) * 100,
+        listPrice: Number(
+          edge.node.cost.compareAtAmountPerQuantity?.amount ??
+            edge.node.cost.amountPerQuantity.amount,
+        ) * 100,
+        quantity: edge.node.quantity,
+        imageUrl: edge.node.merchandise.image.url,
+      } as OrderFormItem),
+    ),
+    totalizers: [
+      {
+        id: "Items",
+        name: "Total",
+        value: Number(cart.cost.totalAmount.amount) * 100,
+      },
+      // {
+      //   id: "Shipping",
+      //   name: "Frete",
+      //   value: Number(cart.cost.checkoutChargeAmount.amount) * 100,
+      // },
+      // {
+      //   id: "Discounts",
+      //   name: "Descontos",
+      //   value: 0
+      // }
+    ],
+    marketingData: {
+      coupon: cart.discountCodes.find((code) => code.applicable)?.code,
+    },
+  } as OrderForm;
+};
