@@ -1,6 +1,7 @@
 import type { LoaderFunction } from "$live/types.ts";
 import type { LiveState } from "$live/types.ts";
 
+import { withISFallback } from "../commerce/vtex/withISFallback.ts";
 import { toProduct } from "../commerce/vtex/transform.ts";
 import { ConfigVTEX, createClient } from "../commerce/vtex/client.ts";
 import type { Product } from "../commerce/types.ts";
@@ -39,9 +40,9 @@ export interface Props {
  */
 const productListLoader: LoaderFunction<
   Props,
-  Product[],
+  Product[] | null,
   LiveState<{ configVTEX: ConfigVTEX | undefined }>
-> = async (
+> = withISFallback(async (
   req,
   ctx,
   props,
@@ -83,6 +84,6 @@ const productListLoader: LoaderFunction<
   return {
     data: products,
   };
-};
+});
 
 export default productListLoader;

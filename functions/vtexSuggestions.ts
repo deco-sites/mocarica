@@ -1,6 +1,7 @@
 import { LiveState, LoaderFunction } from "$live/types.ts";
 import { Suggestion } from "../commerce/types.ts";
 import { ConfigVTEX, createClient } from "../commerce/vtex/client.ts";
+import { withISFallback } from "../commerce/vtex/withISFallback.ts";
 
 export interface Props {
   /**
@@ -12,22 +13,27 @@ export interface Props {
 
 const topSearches: LoaderFunction<
   Props,
-  Suggestion,
+  Suggestion | null,
   LiveState<{ configVTEX: ConfigVTEX }>
-> = async (_, ctx, { count }) => {
+> = withISFallback(async (_, ctx, { count }) => {
   const vtex = createClient(ctx.state.global.configVTEX);
-  const topSearches = await vtex.search.topSearches(
-    { locale: ctx.state.global.configVTEX.defaultLocale },
-  );
+  const suggestion: Suggestion = {};
+
+  try {
+    const { searches } = await vtex.search.topSearches(
+      { locale: ctx.state.global.configVTEX.defaultLocale },
+    );
+
+    suggestion.searches = count ? searches.slice(0, count) : searches;
+  } catch (e) {
+    console.error(`Error fetching vtex top searches: \n ${e}`);
+
+    return { data: { searches: [], products: [] } };
+  }
 
   return {
-    data: {
-      ...topSearches,
-      searches: topSearches?.searches && count
-        ? topSearches.searches.slice(0, count)
-        : topSearches?.searches,
-    },
+    data: suggestion,
   };
-};
+});
 
 export default topSearches;

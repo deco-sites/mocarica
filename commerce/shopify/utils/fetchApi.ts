@@ -1,6 +1,6 @@
 import { fetchAPI } from "$live/utils/fetchAPI.ts";
 
-// TODO: move these keys to their env variables
+// TODO: Find out the correct way to store these public keys on this platform. I tried creating a loader in the functions folder, but I had no idea how to use it with hooks.
 const storefrontAccessToken = "0de0d486c27e0b13cd216698d1b8e770";
 const storeName = "mocarica";
 
