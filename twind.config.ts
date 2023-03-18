@@ -43,6 +43,9 @@ const options: Omit<Options, "selfURL"> = {
         "hover": "rgba(0, 0, 0, 0.04)",
         "hover-inverse": "rgba(255, 255, 255, 0.4)",
       },
+      width: {
+        "fit": "fit-content",
+      },
       textColor: {
         "default": "#161616",
         "default-inverse": "#FFFFFF",

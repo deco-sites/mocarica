@@ -34,3 +34,8 @@ export interface AddItemsOptions {
   }>;
   allowedOutdatedData?: Array<"paymentData">;
 }
+
+export interface IRequestError {
+  code: string;
+  message: string;
+}
