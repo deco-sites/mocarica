@@ -22,83 +22,9 @@ const isIcon = (item: Item): item is IconItem =>
   // deno-lint-ignore no-explicit-any
   typeof (item as any)?.icon === "string";
 
-const defaultSections: Section[] = [
-  {
-    label: "Sobre",
-    children: [
-      {
-        label: "Quem somos",
-        href: "https://www.deco.cx",
-      },
-      {
-        label: "Privacidade e segurança",
-        href: "https://www.deco.cx",
-      },
-      {
-        label: "Termos de uso",
-        href: "https://www.deco.cx",
-      },
-      {
-        label: "Trabalhe Conosco",
-        href: "https://www.deco.cx",
-      },
-    ],
-  },
-  {
-    label: "Atendimento",
-    children: [
-      {
-        label: "Central de Atendimento",
-        href: "https://www.deco.cx",
-      },
-      {
-        label: "Fale conosco pelo WhatsApp",
-        href: "https://www.deco.cx",
-      },
-      {
-        label: "Troca e Devolução",
-        href: "https://www.deco.cx",
-      },
-    ],
-  },
-  {
-    label: "Minha Conta",
-    children: [
-      {
-        label: "Login/Cadastro",
-        href: "https://www.deco.cx",
-      },
-      {
-        label: "Meus pedidos",
-        href: "https://www.deco.cx",
-      },
-    ],
-  },
-  {
-    label: "Formas de Pagamento",
-    children: [
-      {
-        icon: "Pix",
-      },
-      {
-        icon: "Visa",
-      },
-      {
-        icon: "Elo",
-      },
-      {
-        icon: "Mastercard",
-      },
-    ],
-  },
-];
-
 function SectionItem({ item }: { item: Item }) {
   return (
-    <Text
-      variant="caption-regular"
-      tone="interactive-default"
-    >
+    <Text variant="caption" tone="default-inverse">
       {isIcon(item)
         ? (
           <div class="border-default border-1 py-1.5 px-2.5">
@@ -132,9 +58,9 @@ export interface Props {
   sections?: Section[];
 }
 
-function Footer({ sections = defaultSections }: Props) {
+function Footer({ sections = [] }: Props) {
   return (
-    <footer class="w-full bg-decorative-one flex flex-col divide-y-1 divide-default">
+    <footer class="w-full bg-footer flex flex-col divide-y-1 divide-default">
       <div>
         <Container class="w-full flex flex-col divide-y-1 divide-default">
           <FooterContainer>
@@ -147,7 +73,7 @@ function Footer({ sections = defaultSections }: Props) {
               {sections.map((section) => (
                 <li>
                   <div>
-                    <Text variant="caption-strong" tone="interactive-default">
+                    <Text variant="heading-3" tone="default-inverse">
                       {section.label}
                     </Text>
 
@@ -171,7 +97,7 @@ function Footer({ sections = defaultSections }: Props) {
             <ul class="flex flex-col sm:hidden sm:flex-row gap-4">
               {sections.map((section) => (
                 <li>
-                  <Text variant="caption-strong" tone="interactive-default">
+                  <Text variant="body" tone="default-inverse">
                     <details>
                       <summary>
                         {section.label}
@@ -202,8 +128,8 @@ function Footer({ sections = defaultSections }: Props) {
           <FooterContainer class="flex justify-between w-full">
             <Text
               class="flex items-center gap-1"
-              variant="caption-strong"
-              tone="interactive-default"
+              variant="body"
+              tone="default-inverse"
             >
               Powered by{" "}
               <a
@@ -217,13 +143,13 @@ function Footer({ sections = defaultSections }: Props) {
             <ul class="flex items-center justify-center gap-2">
               <li>
                 <a
-                  href="https://www.instagram.com/mocarica"
+                  href="https://www.instagram.com/deco.cx"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Instagram logo"
                 >
                   <Icon
-                    class="text-interactive-default"
+                    class="text-default-inverse"
                     width={32}
                     height={32}
                     id="Instagram"
@@ -239,7 +165,7 @@ function Footer({ sections = defaultSections }: Props) {
                   aria-label="Discord logo"
                 >
                   <Icon
-                    class="text-interactive-default"
+                    class="text-default-inverse"
                     width={32}
                     height={32}
                     id="Discord"

@@ -56,7 +56,7 @@ export const useOffer = (aggregateOffer?: AggregateOffer) => {
     spec.priceType === "https://schema.org/ListPrice"
   );
   const installment = offer?.priceSpecification.reduce(bestInstallment, null);
-  const seller = offer?.seller ?? "default";
+  const seller = offer?.seller ?? "default-seller"; // TODO: Find out the seller equivalent in shopify
   const price = offer?.price;
 
   return {

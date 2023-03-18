@@ -1,4 +1,4 @@
-import Text from "$store/components/ui/Text.tsx";
+import Button from "$store/components/ui/Button.tsx";
 import type { JSX } from "preact";
 
 /**
@@ -29,7 +29,7 @@ const colors = {
   "cinza-escura": "#A9A9A9",
   "laranja": "#FFA500",
   "marrom": "#A52A2A",
-  "preta": "#000000",
+  "preta": "#161616",
   "verde-clara": "#90EE90",
   "vermelha": "#FF0000",
 };
@@ -43,7 +43,7 @@ function Avatar({ variant, content, class: _class = "", ...btnProps }: Props) {
     return (
       <button
         {...btnProps}
-        class={`rounded-full border-1 border-default w-8 h-8 ${_class}`}
+        class={`rounded-full border border-default w-8 h-8 ${_class}`}
         style={{ backgroundColor: colors[content] ?? "#FFF" }}
       />
     );
@@ -53,7 +53,7 @@ function Avatar({ variant, content, class: _class = "", ...btnProps }: Props) {
     return (
       <button
         {...btnProps}
-        class={`text-caption-regular font-caption-regular rounded-full border-1 border-default w-8 h-8 flex justify-center items-center disabled:bg-interactive-default disabled:text-interactive-default ${_class}`}
+        class={`text-caption font-caption rounded-full border border-default w-8 h-8 flex justify-center items-center hover:bg-interactive hover:border-interactive hover:text-default-inverse disabled:bg-interactive disabled:text-default-inverse disabled:border-interactive ${_class}`}
       >
         {content.substring(0, 2)}
       </button>

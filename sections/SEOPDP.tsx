@@ -1,4 +1,4 @@
-import SEOPDP from "../components/seo/SEOPDP.tsx";
+import SEOPDP from "$store/components/seo/SEOPDP.tsx";
 import type { Props } from "../components/seo/SEOPDP.tsx";
 
 function SEOPDPSection(props: Props) {

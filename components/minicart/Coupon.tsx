@@ -1,15 +1,11 @@
 import { useRef } from "preact/hooks";
 import { useSignal } from "@preact/signals";
-import { useCart } from "$store/commerce/shopify/cart/useCart.ts";
+import { useCart } from "$store/commerce/shopify/hooks/useCart.ts";
 import Button from "$store/components/ui/Button.tsx";
 import Text from "$store/components/ui/Text.tsx";
 
 function Coupon() {
-  const {
-    cart,
-    loading,
-    addCouponsToCart,
-  } = useCart();
+  const { cart, loading, addCouponsToCart } = useCart();
   const ref = useRef<HTMLInputElement>(null);
   const displayInput = useSignal(false);
   const coupon = cart.value?.marketingData?.coupon;
@@ -30,11 +26,11 @@ function Coupon() {
   };
 
   return (
-    <div class="flex justify-between items-center">
-      <Text variant="caption-regular">Coupon de desconto</Text>
+    <div class="flex justify-between items-center px-4">
+      <Text variant="caption">Cupom de desconto</Text>
       {!displayInput.value && (
         <Button
-          class="underline text-caption-regular font-caption-regular"
+          class="underline text-caption font-caption"
           onClick={toggleInput}
           variant="icon"
         >
@@ -47,7 +43,7 @@ function Coupon() {
             id="coupon"
             name="coupon"
             ref={ref}
-            class="w-[140px] border rounded p-2 text-caption-regular font-caption-regular"
+            class="w-[140px] border rounded p-2 text-caption font-caption"
             type="text"
             value={coupon ?? ""}
             placeholder={"Coupom"}

@@ -18,33 +18,30 @@ export interface Props {
 
 function Highlights({ highlights = [], title }: Props) {
   return (
-    <Container class="flex flex-col items-center gap-10 py-10">
-      {title && (
-        <h2>
-          <Text class="uppercase" variant="subheading-strong">{title}</Text>
-        </h2>
-      )}
+    <Container class="grid grid-cols-1 grid-rows-[48px_1fr] py-10">
+      <h2 class="text-center">
+        <Text variant="heading-2">{title}</Text>
+      </h2>
 
-      <Slider>
-        {highlights.map(({ href, src, alt, label }, index) => {
-          const ml = index == 0 ? "ml-4" : "";
-          const mr = index === highlights.length - 1 ? "mr-4" : "";
-
-          return (
-            <a
-              href={href}
-              class={`flex flex-col gap-4 items-center min-w-[200px] max-w-[200px] ${ml} ${mr}`}
-            >
-              <Image
-                src={src}
-                alt={alt}
-                width={200}
-                height={309}
-              />
-              <Text variant="body-strong">{label}</Text>
-            </a>
-          );
-        })}
+      <Slider
+        class="gap-6"
+        snap="snap-center sm:snap-start block first:ml-6 sm:first:ml-0 last:mr-6 sm:last:mr-0"
+      >
+        {highlights.map(({ href, src, alt, label }) => (
+          <a
+            href={href}
+            class="flex flex-col gap-4 items-center min-w-[190px]"
+          >
+            <Image
+              class="rounded-[40px]"
+              src={src}
+              alt={alt}
+              width={190}
+              height={265}
+            />
+            <Text variant="body">{label}</Text>
+          </a>
+        ))}
       </Slider>
     </Container>
   );

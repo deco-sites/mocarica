@@ -48,21 +48,7 @@ function ProductCard({ product, preload }: Props) {
     image: images,
     offers,
   } = product;
-
-  /**
-   * I did not really liked the images from our default base store.
-   * To overcome this issue without generating another catalog altogheter
-   * I decided to get images from unplash. However, you should get the images
-   * front the catalog itself. To do this, just uncomment the code below
-   */
   const [front, back] = images ?? [];
-  // const [front, back] = [{
-  //   url: `https://source.unsplash.com/user/nikutm?v=${productID}`,
-  //   alternateName: "nikutm-front",
-  // }, {
-  //   url: `https://source.unsplash.com/user/nikutm?v=${productID}-2`,
-  //   alternateName: "nikutm-back",
-  // }];
   const { listPrice, price, seller } = useOffer(offers);
 
   return (
@@ -77,7 +63,7 @@ function ProductCard({ product, preload }: Props) {
             alt={front.alternateName}
             width={200}
             height={279}
-            class="w-full group-hover:hidden"
+            class="rounded w-full group-hover:hidden"
             preload={preload}
             loading={preload ? "eager" : "lazy"}
             sizes="(max-width: 640px) 50vw, 20vw"
@@ -87,7 +73,7 @@ function ProductCard({ product, preload }: Props) {
             alt={back?.alternateName ?? front.alternateName}
             width={200}
             height={279}
-            class="w-full hidden group-hover:block"
+            class="rounded w-full hidden group-hover:block"
             sizes="(max-width: 640px) 50vw, 20vw"
           />
           {seller && (
@@ -107,19 +93,19 @@ function ProductCard({ product, preload }: Props) {
         <div class="flex flex-col gap-1 py-2">
           <Text
             class="overflow-hidden overflow-ellipsis whitespace-nowrap"
-            variant="caption-regular"
+            variant="caption"
           >
             {name}
           </Text>
           <div class="flex items-center gap-2">
             <Text
               class="line-through"
-              variant="subcaption-regular"
+              variant="list-price"
               tone="subdued"
             >
               {formatPrice(listPrice, offers!.priceCurrency!)}
             </Text>
-            <Text variant="caption-strong" tone="critical">
+            <Text variant="caption" tone="price">
               {formatPrice(price, offers!.priceCurrency!)}
             </Text>
           </div>

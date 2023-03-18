@@ -3,7 +3,7 @@ import Icon from "$store/components/ui/Icon.tsx";
 import type { BreadcrumbList } from "$store/commerce/types.ts";
 
 interface Props {
-  breadcrumbList: BreadcrumbList;
+  itemListElement: BreadcrumbList["itemListElement"];
 }
 
 function Item({ name, item }: { name?: string; item?: string }) {
@@ -13,8 +13,8 @@ function Item({ name, item }: { name?: string; item?: string }) {
 
   return (
     <li class="whitespace-nowrap overflow-hidden overflow-ellipsis">
-      <a href={item}>
-        <Text variant="caption-regular">
+      <a href={item} class="hover:underline">
+        <Text variant="caption">
           {name}
         </Text>
       </a>
@@ -22,15 +22,13 @@ function Item({ name, item }: { name?: string; item?: string }) {
   );
 }
 
-function Breadcrumb({ breadcrumbList }: Props) {
-  const { itemListElement } = breadcrumbList;
-
+function Breadcrumb({ itemListElement = [] }: Props) {
   return (
-    <ul class="flex flex-row gap-2 items-center max-w-[360px]">
+    <ul class="flex flex-row gap-2 items-center w-full">
       <Item name="Home" item="/" />
       {itemListElement.map((item) => (
         <>
-          <li>
+          <li class="mt-0.5">
             <Icon id="ChevronRight" width={16} height={16} strokeWidth={2} />
           </li>
           <Item {...item} />

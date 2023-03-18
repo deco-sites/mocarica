@@ -17,7 +17,7 @@ import {
   ICartLinesCreate,
   INewCartCreate,
   INewCartGet,
-} from "$store/commerce/shopify/cart/types.ts";
+} from "$store/commerce/shopify/hooks/types.ts";
 
 const cart = signal<OrderForm | null>(null);
 const loading = signal<boolean>(true);

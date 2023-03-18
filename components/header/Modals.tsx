@@ -4,6 +4,7 @@ import { useUI } from "$store/sdk/useUI.ts";
 
 import type { Props as MenuProps } from "$store/components/header/Menu.tsx";
 import type { Props as SearchbarProps } from "$store/components/search/Searchbar.tsx";
+import Loading from "$store/components/ui/Loading.tsx";
 
 const Menu = lazy(() => import("$store/components/header/Menu.tsx"));
 const Cart = lazy(() => import("$store/components/minicart/Cart.tsx"));
@@ -28,7 +29,7 @@ function Modals({ menu, searchbar }: Props) {
           displayMenu.value = false;
         }}
       >
-        <Suspense fallback={null}>
+        <Suspense fallback={<Loading />}>
           <Menu {...menu} />
         </Suspense>
       </Modal>
@@ -37,12 +38,13 @@ function Modals({ menu, searchbar }: Props) {
         title="Buscar"
         mode="sidebar-right"
         loading="lazy"
-        open={displaySearchbar.value}
+        open={displaySearchbar.value &&
+          window?.matchMedia("(max-width: 767px)")?.matches}
         onClose={() => {
           displaySearchbar.value = false;
         }}
       >
-        <Suspense fallback={null}>
+        <Suspense fallback={<Loading />}>
           <Searchbar {...searchbar} />
         </Suspense>
       </Modal>
@@ -56,7 +58,7 @@ function Modals({ menu, searchbar }: Props) {
           displayCart.value = false;
         }}
       >
-        <Suspense fallback={null}>
+        <Suspense fallback={<Loading />}>
           <Cart />
         </Suspense>
       </Modal>

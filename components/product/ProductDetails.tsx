@@ -10,17 +10,26 @@ import { formatPrice } from "$store/sdk/format.ts";
 import type { LoaderReturnType } from "$live/types.ts";
 import type { ProductDetailsPage } from "$store/commerce/types.ts";
 
-import ProductSelector from "$store/components/product/ProductVariantSelector.tsx";
+import ProductSelector from "./ProductVariantSelector.tsx";
 
 export interface Props {
   page: LoaderReturnType<ProductDetailsPage | null>;
 }
 
-function ProductDetails({ page }: Props) {
-  if (!page) {
-    return null;
-  }
+function NotFound() {
+  return (
+    <div class="w-full flex justify-center items-center py-28">
+      <div class="flex flex-col items-center justify-center gap-6">
+        <Text variant="heading-2">Página não encontrada</Text>
+        <a href="/">
+          <Button>Voltar à página inicial</Button>
+        </a>
+      </div>
+    </div>
+  );
+}
 
+function Details({ page }: { page: ProductDetailsPage }) {
   const {
     breadcrumbList,
     product,
@@ -34,31 +43,17 @@ function ProductDetails({ page }: Props) {
     gtin,
   } = product;
   const { price, listPrice, seller, installments } = useOffer(offers);
-
-  /**
-   * I did not really liked the images from our default base store.
-   * To overcome this issue without generating another catalog altogheter
-   * I decided to get images from unplash. However, you should get the images
-   * front the catalog itself. To do this, just uncomment the code below
-   */
   const [front, back] = images ?? [];
-  // const [front, back] = [{
-  //   url: `https://source.unsplash.com/user/nikutm?v=${productID}`,
-  //   alternateName: "nikutm-front",
-  // }, {
-  //   url: `https://source.unsplash.com/user/nikutm?v=${productID}-2`,
-  //   alternateName: "nikutm-back",
-  // }];
 
   return (
     <Container class="py-0 sm:py-10">
       <div class="flex flex-col gap-4 sm:flex-row sm:gap-10">
         {/* Image Gallery */}
-        <div class="flex flex-row overflow-auto scroll-x-mandatory scroll-smooth sm:gap-2">
+        <div class="flex flex-row overflow-auto snap-x snap-mandatory scroll-smooth sm:gap-2">
           {[front, back ?? front].map((img, index) => (
             <Image
               style={{ aspectRatio: "360 / 500" }}
-              class="scroll-snap-center min-w-[100vw] sm:min-w-0 sm:w-auto sm:h-[600px]"
+              class="snap-center min-w-[100vw] sm:min-w-0 sm:w-auto sm:h-[600px]"
               sizes="(max-width: 640px) 100vw, 30vw"
               src={img.url!}
               alt={img.alternateName}
@@ -71,18 +66,20 @@ function ProductDetails({ page }: Props) {
           ))}
         </div>
         {/* Product Info */}
-        <div class="px-4 sm:px-0">
+        <div class="flex-auto px-4 sm:px-0">
           {/* Breadcrumb */}
-          <Breadcrumb breadcrumbList={breadcrumbList} />
+          <Breadcrumb
+            itemListElement={breadcrumbList?.itemListElement.slice(0, -1)}
+          />
           {/* Code and name */}
           <div class="mt-4 sm:mt-8">
             <div>
-              <Text tone="subdued" variant="subcaption-regular">
+              <Text tone="subdued" variant="caption">
                 Cod. {gtin}
               </Text>
             </div>
             <h1>
-              <Text variant="heading-regular">{name}</Text>
+              <Text variant="heading-3">{name}</Text>
             </h1>
           </div>
           {/* Prices */}
@@ -91,15 +88,15 @@ function ProductDetails({ page }: Props) {
               <Text
                 class="line-through"
                 tone="subdued"
-                variant="subcaption-regular"
+                variant="list-price"
               >
                 {formatPrice(listPrice, offers!.priceCurrency!)}
               </Text>
-              <Text tone="critical" variant="heading-strong">
+              <Text tone="price" variant="heading-3">
                 {formatPrice(price, offers!.priceCurrency!)}
               </Text>
             </div>
-            <Text tone="subdued" variant="caption-regular">
+            <Text tone="subdued" variant="caption">
               {installments}
             </Text>
           </div>
@@ -115,14 +112,14 @@ function ProductDetails({ page }: Props) {
                 sellerId={seller}
               />
             )}
-            <Button variant="quiet">
+            <Button variant="secondary">
               <Icon id="Heart" width={20} height={20} strokeWidth={2} />{" "}
               Favoritar
             </Button>
           </div>
           {/* Description card */}
           <div class="mt-4 sm:mt-6">
-            <Text variant="caption-regular">
+            <Text variant="caption">
               {description && (
                 <details>
                   <summary class="cursor-pointer">Descrição</summary>
@@ -135,6 +132,14 @@ function ProductDetails({ page }: Props) {
       </div>
     </Container>
   );
+}
+
+function ProductDetails({ page }: Props) {
+  if (page) {
+    return <Details page={page} />;
+  }
+
+  return <NotFound />;
 }
 
 export default ProductDetails;

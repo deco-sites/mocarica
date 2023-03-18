@@ -3,7 +3,7 @@ import Icon from "$store/components/ui/Icon.tsx";
 import Text from "$store/components/ui/Text.tsx";
 import Button from "$store/components/ui/Button.tsx";
 import QuantitySelector from "$store/components/ui/QuantitySelector.tsx";
-import { useCart } from "$store/commerce/shopify/cart/useCart.ts";
+import { useCart } from "$store/commerce/shopify/hooks/useCart.ts";
 import { formatPrice } from "$store/sdk/format.ts";
 
 interface Props {
@@ -11,15 +11,18 @@ interface Props {
 }
 
 function CartItem({ index }: Props) {
-  const {
-    loading,
-    cart,
-    updateItems,
-  } = useCart();
+  const { loading, cart, updateItems } = useCart();
   const item = cart.value!.items[index];
   const locale = cart.value?.clientPreferencesData.locale;
   const currencyCode = cart.value?.storePreferencesData.currencyCode;
-  const { imageUrl, skuName, sellingPrice, listPrice, name, quantity } = item;
+  const {
+    imageUrl,
+    skuName,
+    sellingPrice,
+    listPrice,
+    name,
+    quantity,
+  } = item;
 
   const isGift = sellingPrice < 0.01;
 
@@ -33,12 +36,14 @@ function CartItem({ index }: Props) {
         class="object-cover object-center"
       />
       <div class="flex-grow">
-        <Text variant="body-regular">{name}</Text>
+        <Text variant="body">
+          {name}
+        </Text>
         <div class="flex items-center gap-2">
-          <Text tone="subdued" variant="subcaption-regular">
+          <Text class="line-through" tone="subdued" variant="list-price">
             {formatPrice(listPrice / 100, currencyCode!, locale)}
           </Text>
-          <Text tone={isGift ? "default" : "critical"} variant="caption-strong">
+          <Text tone="price" variant="caption">
             {isGift
               ? "Grátis"
               : formatPrice(sellingPrice / 100, currencyCode!, locale)}
@@ -59,7 +64,7 @@ function CartItem({ index }: Props) {
         loading={loading.value}
         variant="icon"
       >
-        <Icon id="XMark" width={20} height={20} strokeWidth={2} />
+        <Icon id="Trash" width={20} height={20} />
       </Button>
     </div>
   );

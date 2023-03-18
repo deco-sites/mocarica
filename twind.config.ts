@@ -1,20 +1,3 @@
-// /**
-//  * WARNING: DO NOT USE ANY TWIND FUNCTIONS in here otherwise the
-//  * vscode-twind-intellisense plugin may stop working. To overcome
-//  * this issue, use animations and keyframes intead of twind's animation
-//  * function.
-//  */
-// import type { Options } from "$fresh/plugins/twind.ts";
-
-// /** @type {import('$fresh/plugins/twind').Options} */
-// const options: Omit<Options, "selfURL"> = {
-//   theme: {
-//     extend: {},
-//   },
-// };
-
-// export default options;
-
 /**
  * WARNING: DO NOT USE ANY TWIND FUNCTIONS in here otherwise the
  * vscode-twind-intellisense plugin may stop working. To overcome
@@ -23,7 +6,122 @@
  */
 import type { Options } from "$fresh/plugins/twind.ts";
 
+const gridCols = ([arg]: string[]) => {
+  const template = Number.isInteger(Number(arg))
+    ? `repeat(${arg}, minmax(0, 1fr))`
+    : arg
+    ? arg.replace(/(^\[)|(\])$/g, "").replace(/_/g, " ")
+    : arg;
+
+  return {
+    "grid-template-columns": template,
+  };
+};
+
+const gridRows = ([arg]: string[]) => {
+  const template = Number.isInteger(Number(arg))
+    ? `repeat(${arg}, minmax(0, 1fr))`
+    : arg
+    ? arg.replace(/(^\[)|(\])$/g, "").replace(/_/g, " ")
+    : arg;
+
+  return {
+    "grid-template-rows": template,
+  };
+};
+
 const options: Omit<Options, "selfURL"> = {
+  theme: {
+    extend: {
+      colors: {
+        "default": "#FFFFFF",
+        "header": "#FFFFFF",
+        "badge": "#8C3D3D", // shopping cart tem isso tambem
+        "footer": "#003232",
+        "interactive": "#161616",
+        "interactive-inverse": "#FFFFFF",
+        "hover": "rgba(0, 0, 0, 0.04)",
+        "hover-inverse": "rgba(255, 255, 255, 0.4)",
+      },
+      textColor: {
+        "default": "#161616",
+        "default-inverse": "#FFFFFF",
+        "subdued": "#66736C",
+        "subdued-inverse": "#C6C6C6",
+        "price": "#8C3D3D",
+        "section-title": "#161616",
+        "positive": "#1A7346",
+        "critical": "#B44125",
+      },
+      borderColor: {
+        "default": "#D4DBD7",
+        "default-inverse": "#FFFFFF",
+        "interactive": "#161616",
+        "focus": "#3379EF",
+        "positive": "#1A7346",
+        "critical": "#B44125",
+      },
+      outline: {
+        interactive: ["2px solid #3379EF", "2px"],
+      },
+      fontSize: {
+        "heading-1": ["56px", "67.2px"],
+        "heading-2": ["24px", "28.8px"],
+        "heading-3": ["20px", "24px"],
+        "menu": ["16px", "20px"],
+        "button": ["14px", "18px"],
+        "body": ["16px", "20px"],
+        "caption": ["13px", "16px"],
+        "list-price": ["10px", "20px"],
+      },
+      fontWeight: {
+        "heading-1": "500",
+        "heading-2": "500",
+        "heading-3": "500",
+        "menu": "400",
+        "button": "700",
+        "body": "400",
+        "caption": "400",
+        "list-price": "400",
+      },
+      animation: {
+        "slide-left": "slide-left-frame 0.4s ease normal",
+        "slide-right": "slide-right-frame 0.4s ease normal",
+        "slide-bottom": "slide-bottom-frame 0.4s ease normal",
+      },
+      keyframes: {
+        "slide-left-frame": {
+          from: { transform: "translateX(100%)" },
+          to: { transform: "translateX(0)" },
+        },
+        "slide-right-frame": {
+          from: { transform: "translateX(-100%)" },
+          to: { transform: "translateX(0)" },
+        },
+        "slide-bottom-frame": {
+          from: { transform: "translateY(100%)" },
+          to: { transform: "translateY(0)" },
+        },
+      },
+      boxShadow: {
+        sm: "0px 1px 3px 0px #00000014",
+        default: "0px 1px 4px 0px #0000001F",
+        md: "0px 1px 5px 0px #00000024",
+        lg: "0px 4px 10px 0px #0000001F",
+      },
+    },
+    fontFamily: {
+      sans: ["Albert Sans", "sans-serif"],
+      serif: ["inherit", "serif"],
+    },
+    screens: {
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1536px",
+    },
+  },
   preflight: (preflight) => ({
     ...preflight,
 
@@ -55,6 +153,19 @@ const options: Omit<Options, "selfURL"> = {
     "scroll-x-mandatory": {
       "scroll-snap-type": "x mandatory",
     },
+    "snap-x": {
+      "scroll-snap-type": "x var(--tw-scroll-snap-strictness)",
+    },
+    "snap-mandatory": {
+      "--tw-scroll-snap-strictness": "mandatory",
+    },
+    "fill": (parts) => ({ "fill": parts.join("-") }),
+    "max-h-min": {
+      "max-height": "min-content",
+    },
+    "snap": ([mod]) => ({ "scroll-snap-align": mod }),
+    "grid-cols": gridCols,
+    "grid-rows": gridRows,
     "scroll-smooth": {
       "scroll-behavior": "smooth",
       "-webkit-overflow-scrolling": "touch",
@@ -65,93 +176,6 @@ const options: Omit<Options, "selfURL"> = {
       "&::-webkit-scrollbar": {
         display: "none",
       },
-    },
-  },
-  theme: {
-    extend: {
-      colors: {
-        // Tokens to remove
-        primary: "#2FD180",
-        "primary-green-light": "#2EAE80",
-        "primary-green-dark": "#177151",
-        "primary-dark": "#221E1F",
-        "primary-light": "#f4f4f4",
-        "custom-brown": "#f8f5f1",
-        "custom-gray": "#f4f4f4",
-        "primary-red": "#D10923",
-        "primary-red-light": "#DA262B",
-        "primary-red-dark": "#A1061A",
-
-        // Tokens from Design System
-        "default": "#FFFFFF",
-        "decorative-one": "#003232",
-        "decorative-two": "#8C3D3D",
-        "interactive-default": "#161616",
-        "dark-interactive-default": "#FFFFFF",
-        "icon-brand": "#2FD180",
-        "icon-subdued": "#66736C",
-      },
-      textColor: {
-        default: "#161616",
-        subdued: "#66736C",
-        critical: "#B44125",
-        "interactive-default": "#F4F4F4",
-      },
-      borderColor: {
-        default: "#D4DBD7",
-      },
-      fontSize: {
-        "body-regular": ["15px", "20px"],
-        "body-strong": ["15px", "20px"],
-        "heading-strong": ["20px", "24px"],
-        "heading-regular": ["20px", "24px"],
-        "subheading-strong": ["13px", "16px"],
-        "display-strong": ["24px", "28px"],
-        "caption-regular": ["13px", "20px"],
-        "caption-strong": ["13px", "20px"],
-        "subcaption-regular": ["10px", "20px"],
-      },
-      fontWeight: {
-        "body-regular": "400",
-        "body-strong": "600",
-        "heading-strong": "600",
-        "heading-regular": "400",
-        "subheading-strong": "600",
-        "display-strong": "600",
-        "caption-regular": "400",
-        "caption-strong": "600",
-        "subcaption-regular": "400",
-      },
-      animation: {
-        "slide-left": "slide-left-frame 0.4s ease normal",
-        "slide-right": "slide-right-frame 0.4s ease normal",
-        "slide-bottom": "slide-bottom-frame 0.4s ease normal",
-      },
-      keyframes: {
-        "slide-left-frame": {
-          from: { transform: "translateX(100%)" },
-          to: { transform: "translateX(0)" },
-        },
-        "slide-right-frame": {
-          from: { transform: "translateX(-100%)" },
-          to: { transform: "translateX(0)" },
-        },
-        "slide-bottom-frame": {
-          from: { transform: "translateY(100%)" },
-          to: { transform: "translateY(0)" },
-        },
-      },
-    },
-    fontFamily: {
-      sans: ["Albert Sans", "sans-serif"],
-      serif: ["inherit", "serif"],
-    },
-    screens: {
-      sm: "640px",
-      md: "768px",
-      lg: "1024px",
-      xl: "1280px",
-      "2xl": "1536px",
     },
   },
 };

@@ -1,13 +1,14 @@
-import { useCart } from "$store/commerce/shopify/cart/useCart.ts";
+import { useCart } from "$store/commerce/shopify/hooks/useCart.ts";
 import { formatPrice } from "$store/sdk/format.ts";
 import Button from "$store/components/ui/Button.tsx";
 import Text from "$store/components/ui/Text.tsx";
 
-import { useUI } from "$store/sdk/useUI.ts";
-import CartItem from "$store/components/minicart/CartItem.tsx";
-import Coupon from "$store/components/minicart/Coupon.tsx";
+import { useUI } from "../../sdk/useUI.ts";
+import CartItem from "./CartItem.tsx";
+import Coupon from "./Coupon.tsx";
 
-const CHECKOUT_URL = "https://32506e.myshopify.com/cart/c/";
+const CHECKOUT_URL =
+  "https://bravtexfashionstore.vtexcommercestable.com.br/checkout";
 
 function Cart() {
   const { displayCart } = useUI();
@@ -28,9 +29,9 @@ function Cart() {
   if (isCartEmpty) {
     return (
       <div class="flex flex-col justify-center items-center h-full gap-6">
-        <Text variant="display-strong">Sua sacola está vazia</Text>
+        <Text variant="heading-2">Sua sacola está vazia</Text>
         <Button
-          variant="quiet"
+          variant="secondary"
           onClick={() => {
             displayCart.value = false;
           }}
@@ -46,7 +47,7 @@ function Cart() {
       {/* Cart Items */}
       <ul
         role="list"
-        class="py-4 flex-grow-1 overflow-y-auto flex flex-col gap-6"
+        class="mt-6 px-2 flex-grow-1 overflow-y-auto flex flex-col gap-6"
       >
         {cart.value.items.map((_, index) => (
           <li>
@@ -60,9 +61,9 @@ function Cart() {
         {/* Subtotal */}
         <div class="border-t-1 border-default py-4 flex flex-col gap-4">
           {discounts?.value && (
-            <div class="flex justify-between items-center">
-              <Text variant="caption-regular">Descontos</Text>
-              <Text variant="caption-regular">
+            <div class="flex justify-between items-center px-4">
+              <Text variant="caption">Descontos</Text>
+              <Text variant="caption">
                 {formatPrice(discounts.value / 100, currencyCode!, locale)}
               </Text>
             </div>
@@ -71,27 +72,32 @@ function Cart() {
         </div>
         {/* Total */}
         {total?.value && (
-          <div class="border-t-1 border-default pt-4 flex flex-col justify-end items-end gap-2">
+          <div class="border-t-1 border-default pt-4 flex flex-col justify-end items-end gap-2 mx-4">
             <div class="flex justify-between items-center w-full">
-              <Text variant="body-strong">Total</Text>
-              <Text variant="heading-strong">
+              <Text variant="body">Total</Text>
+              <Text variant="heading-3">
                 {formatPrice(total.value / 100, currencyCode!, locale)}
               </Text>
             </div>
-            <Text tone="subdued" variant="caption-regular">
+            <Text tone="subdued" variant="caption">
               Taxas e fretes serão calculados no checkout
             </Text>
           </div>
         )}
-        <Button
-          class="mt-4 w-full"
-          as="a"
-          href={`${CHECKOUT_URL}${cart.value!.orderFormId.split("Cart/")[1]}`}
-          target="_blank"
-          disabled={loading.value || cart.value.items.length === 0}
-        >
-          Finalizar Compra
-        </Button>
+        <div class="p-4">
+          <a
+            class="inline-block w-full"
+            target="_blank"
+            href={`${CHECKOUT_URL}?orderFormId=${cart.value!.orderFormId}`}
+          >
+            <Button
+              class="w-full"
+              disabled={loading.value || cart.value.items.length === 0}
+            >
+              Finalizar Compra
+            </Button>
+          </a>
+        </div>
       </footer>
     </>
   );

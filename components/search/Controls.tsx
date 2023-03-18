@@ -1,5 +1,4 @@
 import Container from "$store/components/ui/Container.tsx";
-import Text from "$store/components/ui/Text.tsx";
 import Button from "$store/components/ui/Button.tsx";
 import Icon from "$store/components/ui/Icon.tsx";
 import Filters from "$store/components/search/Filters.tsx";
@@ -11,34 +10,32 @@ import type { ProductListingPage } from "$store/commerce/types.ts";
 import type { LoaderReturnType } from "$live/types.ts";
 
 export interface Props {
-  page: LoaderReturnType<ProductListingPage>;
+  page: LoaderReturnType<ProductListingPage | null>;
 }
 
-function SearchControls({ page }: Props) {
+function NotFound() {
+  return <div />;
+}
+
+function Controls({ page }: { page: ProductListingPage }) {
   const open = useSignal(false);
   const filters = page?.filters;
   const breadcrumb = page?.breadcrumb;
 
-  if (!filters || filters.length === 0) {
-    return null;
-  }
-
   return (
-    <Container class="flex flex-col justify-between border-b-1 border-default sm:gap-4 sm:flex-row sm:h-[53px]">
-      <div class="flex flex-row items-center p-2 sm:p-0">
-        <Breadcrumb breadcrumbList={breadcrumb} />
+    <Container class="flex flex-col justify-between mb-4 md:mb-0 p-4 md:p-0 sm:gap-4 sm:flex-row sm:h-[53px] md:border-b-1">
+      <div class="flex flex-row items-center sm:p-0 mb-2">
+        <Breadcrumb itemListElement={breadcrumb?.itemListElement} />
       </div>
-      <div class="flex flex-row sm:gap-6 items-center justify-between">
+      <div class="flex flex-row sm:gap-4 items-center justify-between border-b-1 border-default md:border-none">
         <Button
-          variant="icon"
+          variant="tertiary"
           onClick={() => {
             open.value = true;
           }}
         >
+          Filtrar
           <Icon id="FilterList" width={16} height={16} />
-          <Text variant="caption-regular">
-            Filtrar
-          </Text>
         </Button>
         <Sort />
       </div>
@@ -55,6 +52,14 @@ function SearchControls({ page }: Props) {
       </Modal>
     </Container>
   );
+}
+
+function SearchControls({ page }: Props) {
+  if (!page || !page.filters || page.filters.length === 0) {
+    return <NotFound />;
+  }
+
+  return <Controls page={page} />;
 }
 
 export default SearchControls;

@@ -48,9 +48,9 @@ function FilterValues({ key, values }: FilterToggle) {
 
         return (
           <a href={url} class="flex items-center gap-2">
-            <input type="checkbox" checked={selected} />
-            <Text variant="caption-regular">{label}</Text>
-            <Text tone="subdued" variant="subcaption-regular">
+            <input type="checkbox" checked={selected} class="hidden" />
+            <Text variant="caption">{label}</Text>
+            <Text tone="subdued" variant="caption">
               ({quantity})
             </Text>
           </a>
@@ -62,12 +62,12 @@ function FilterValues({ key, values }: FilterToggle) {
 
 export default function Filters({ filters }: Props) {
   return (
-    <ul class="flex flex-col py-6 sm:py-10 gap-6 overflow-y-auto">
+    <ul class="flex flex-col gap-6 p-4">
       {filters
         .filter(isToggle)
         .map((filter) => (
           <li class="flex flex-col gap-4">
-            <Text variant="body-strong">{filter.label}</Text>
+            <Text variant="body">{filter.label}</Text>
             <FilterValues {...filter} />
           </li>
         ))}

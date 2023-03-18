@@ -5,30 +5,36 @@
 import config from "./deno.json" assert { type: "json" };
 import { context } from "$live/live.ts";
 import { DecoManifest } from "$live/types.ts";
-import * as $0 from "./routes/404.tsx";
-import * as $1 from "./routes/[...catchall].tsx";
+import * as $0 from "./routes/[...catchall].tsx";
+import * as $1 from "./routes/_app.tsx";
 import * as $2 from "./routes/_middleware.ts";
-import * as $3 from "./routes/index.tsx";
+import * as $3 from "./routes/api/[...catchall].tsx";
+import * as $4 from "./routes/index.tsx";
 import * as $$0 from "./islands/AddToCartButton.tsx";
 import * as $$1 from "./islands/HeaderButton.tsx";
 import * as $$2 from "./islands/HeaderModals.tsx";
-import * as $$3 from "./islands/SearchControls.tsx";
-import * as $$$0 from "./sections/Carousel.tsx";
-import * as $$$1 from "./sections/DesignSystem.story.tsx";
-import * as $$$2 from "./sections/Features.tsx";
-import * as $$$3 from "./sections/Footer.tsx";
-import * as $$$4 from "./sections/Header.tsx";
-import * as $$$5 from "./sections/Highlights.tsx";
-import * as $$$6 from "./sections/ProductDetails.tsx";
-import * as $$$7 from "./sections/ProductGallery.tsx";
-import * as $$$8 from "./sections/ProductShelf.tsx";
-import * as $$$9 from "./sections/SEO.tsx";
-import * as $$$10 from "./sections/SEOPDP.tsx";
-import * as $$$11 from "./sections/SEOPLP.tsx";
-import * as $$$12 from "./sections/SearchControls.tsx";
-import * as $$$13 from "./sections/configOCC.global.tsx";
-import * as $$$14 from "./sections/configShopify.global.tsx";
-import * as $$$15 from "./sections/configVTEX.global.tsx";
+import * as $$3 from "./islands/HeaderSearchMenu.tsx";
+import * as $$4 from "./islands/SearchControls.tsx";
+import * as $$5 from "./islands/SliderJS.tsx";
+import * as $$$0 from "./sections/BannerGrid.tsx";
+import * as $$$1 from "./sections/Carousel.tsx";
+import * as $$$2 from "./sections/CookieConsent.tsx";
+import * as $$$3 from "./sections/DesignSystem.story.tsx";
+import * as $$$4 from "./sections/Features.tsx";
+import * as $$$5 from "./sections/Footer.tsx";
+import * as $$$6 from "./sections/Header.tsx";
+import * as $$$7 from "./sections/Highlights.tsx";
+import * as $$$8 from "./sections/ProductDetails.tsx";
+import * as $$$9 from "./sections/ProductGallery.tsx";
+import * as $$$10 from "./sections/ProductShelf.tsx";
+import * as $$$11 from "./sections/SEO.tsx";
+import * as $$$12 from "./sections/SEOPDP.tsx";
+import * as $$$13 from "./sections/SEOPLP.tsx";
+import * as $$$14 from "./sections/SearchControls.tsx";
+import * as $$$15 from "./sections/WhatsApp.tsx";
+import * as $$$16 from "./sections/configOCC.global.tsx";
+import * as $$$17 from "./sections/configShopify.global.tsx";
+import * as $$$18 from "./sections/configVTEX.global.tsx";
 import * as $$$$0 from "./functions/occProductDetailsPage.ts";
 import * as $$$$1 from "./functions/shopifyProductDetailsPage.ts";
 import * as $$$$2 from "./functions/shopifyProductList.ts";
@@ -50,34 +56,40 @@ import * as $$$$17 from "$live/functions/MatchUserAgent.ts";
 
 const manifest: DecoManifest = {
   routes: {
-    "./routes/404.tsx": $0,
-    "./routes/[...catchall].tsx": $1,
+    "./routes/[...catchall].tsx": $0,
+    "./routes/_app.tsx": $1,
     "./routes/_middleware.ts": $2,
-    "./routes/index.tsx": $3,
+    "./routes/api/[...catchall].tsx": $3,
+    "./routes/index.tsx": $4,
   },
   islands: {
     "./islands/AddToCartButton.tsx": $$0,
     "./islands/HeaderButton.tsx": $$1,
     "./islands/HeaderModals.tsx": $$2,
-    "./islands/SearchControls.tsx": $$3,
+    "./islands/HeaderSearchMenu.tsx": $$3,
+    "./islands/SearchControls.tsx": $$4,
+    "./islands/SliderJS.tsx": $$5,
   },
   sections: {
-    "./sections/Carousel.tsx": $$$0,
-    "./sections/DesignSystem.story.tsx": $$$1,
-    "./sections/Features.tsx": $$$2,
-    "./sections/Footer.tsx": $$$3,
-    "./sections/Header.tsx": $$$4,
-    "./sections/Highlights.tsx": $$$5,
-    "./sections/ProductDetails.tsx": $$$6,
-    "./sections/ProductGallery.tsx": $$$7,
-    "./sections/ProductShelf.tsx": $$$8,
-    "./sections/SEO.tsx": $$$9,
-    "./sections/SEOPDP.tsx": $$$10,
-    "./sections/SEOPLP.tsx": $$$11,
-    "./sections/SearchControls.tsx": $$$12,
-    "./sections/configOCC.global.tsx": $$$13,
-    "./sections/configShopify.global.tsx": $$$14,
-    "./sections/configVTEX.global.tsx": $$$15,
+    "./sections/BannerGrid.tsx": $$$0,
+    "./sections/Carousel.tsx": $$$1,
+    "./sections/CookieConsent.tsx": $$$2,
+    "./sections/DesignSystem.story.tsx": $$$3,
+    "./sections/Features.tsx": $$$4,
+    "./sections/Footer.tsx": $$$5,
+    "./sections/Header.tsx": $$$6,
+    "./sections/Highlights.tsx": $$$7,
+    "./sections/ProductDetails.tsx": $$$8,
+    "./sections/ProductGallery.tsx": $$$9,
+    "./sections/ProductShelf.tsx": $$$10,
+    "./sections/SEO.tsx": $$$11,
+    "./sections/SEOPDP.tsx": $$$12,
+    "./sections/SEOPLP.tsx": $$$13,
+    "./sections/SearchControls.tsx": $$$14,
+    "./sections/WhatsApp.tsx": $$$15,
+    "./sections/configOCC.global.tsx": $$$16,
+    "./sections/configShopify.global.tsx": $$$17,
+    "./sections/configVTEX.global.tsx": $$$18,
   },
   functions: {
     "./functions/occProductDetailsPage.ts": $$$$0,
@@ -100,6 +112,106 @@ const manifest: DecoManifest = {
     "$live/functions/MatchUserAgent.ts": $$$$17,
   },
   schemas: {
+    "./sections/BannerGrid.tsx": {
+      "inputSchema": {
+        "title": " Banner Grid",
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": [
+              "string",
+              "null",
+            ],
+            "title": "Title",
+          },
+          "itemsPerLine": {
+            "title": "Items Per Line",
+            "type": "object",
+            "properties": {
+              "mobile": {
+                "type": [
+                  "number",
+                  "null",
+                ],
+                "title": "Mobile",
+              },
+              "desktop": {
+                "type": [
+                  "number",
+                  "null",
+                ],
+                "title": "Desktop",
+              },
+            },
+            "required": [],
+            "description": "Default is 2 for mobile and all for desktop",
+          },
+          "borderRadius": {
+            "title": "Border Radius",
+            "type": "object",
+            "properties": {
+              "mobile": {
+                "type": [
+                  "number",
+                  "null",
+                ],
+                "title": "Mobile",
+              },
+              "desktop": {
+                "type": [
+                  "number",
+                  "null",
+                ],
+                "title": "Desktop",
+              },
+            },
+            "required": [],
+            "description": "Item's border radius in px",
+          },
+          "banners": {
+            "type": "array",
+            "items": {
+              "title": "Banner",
+              "type": "object",
+              "properties": {
+                "srcMobile": {
+                  "format": "image-uri",
+                  "type": "string",
+                  "title": "Src Mobile",
+                },
+                "srcDesktop": {
+                  "format": "image-uri",
+                  "type": "string",
+                  "title": "Src Desktop",
+                },
+                "alt": {
+                  "type": "string",
+                  "title": "Alt",
+                  "description": "Image alt text",
+                },
+                "href": {
+                  "type": "string",
+                  "title": "Href",
+                  "description": "When you click you go to",
+                },
+              },
+              "required": [
+                "srcMobile",
+                "alt",
+                "href",
+              ],
+            },
+            "title": "Banners",
+          },
+        },
+        "required": [
+          "itemsPerLine",
+          "borderRadius",
+          "banners",
+        ],
+      },
+      "outputSchema": null,
+    },
     "./sections/Carousel.tsx": {
       "inputSchema": {
         "title": " Carousel",
@@ -108,7 +220,7 @@ const manifest: DecoManifest = {
           "images": {
             "type": "array",
             "items": {
-              "title": "Image",
+              "title": "Banner",
               "type": "object",
               "properties": {
                 "desktop": {
@@ -123,22 +235,43 @@ const manifest: DecoManifest = {
                   "title": "Mobile",
                   "description": "mobile otimized image",
                 },
-                "href": {
-                  "type": "string",
-                  "title": "Href",
-                  "description":
-                    "when user clicks on the image, go to this link",
-                },
                 "alt": {
                   "type": "string",
                   "title": "Alt",
                   "description": "Image's alt text",
                 },
+                "action": {
+                  "title": "Action",
+                  "type": "object",
+                  "properties": {
+                    "href": {
+                      "type": "string",
+                      "title": "Href",
+                    },
+                    "title": {
+                      "type": "string",
+                      "title": "Title",
+                    },
+                    "subTitle": {
+                      "type": "string",
+                      "title": "Sub Title",
+                    },
+                    "label": {
+                      "type": "string",
+                      "title": "Label",
+                    },
+                  },
+                  "required": [
+                    "href",
+                    "title",
+                    "subTitle",
+                    "label",
+                  ],
+                },
               },
               "required": [
                 "desktop",
                 "mobile",
-                "href",
                 "alt",
               ],
             },
@@ -153,9 +286,21 @@ const manifest: DecoManifest = {
             "description":
               "Check this option when this banner is the biggest image on the screen for image optimizations",
           },
+          "interval": {
+            "type": [
+              "number",
+              "null",
+            ],
+            "title": "Autoplay interval",
+            "description": "time (in seconds) to start the carousel autoplay",
+          },
         },
         "required": [],
       },
+      "outputSchema": null,
+    },
+    "./sections/CookieConsent.tsx": {
+      "inputSchema": null,
       "outputSchema": null,
     },
     "./sections/DesignSystem.story.tsx": {
@@ -178,15 +323,19 @@ const manifest: DecoManifest = {
                   "anyOf": [
                     {
                       "type": "string",
-                      "const": "Circle",
-                    },
-                    {
-                      "type": "string",
                       "const": "ChevronLeft",
                     },
                     {
                       "type": "string",
                       "const": "ChevronRight",
+                    },
+                    {
+                      "type": "string",
+                      "const": "ChevronUp",
+                    },
+                    {
+                      "type": "string",
+                      "const": "ChevronDown",
                     },
                     {
                       "type": "string",
@@ -215,6 +364,22 @@ const manifest: DecoManifest = {
                     {
                       "type": "string",
                       "const": "XMark",
+                    },
+                    {
+                      "type": "string",
+                      "const": "Plus",
+                    },
+                    {
+                      "type": "string",
+                      "const": "Minus",
+                    },
+                    {
+                      "type": "string",
+                      "const": "MapPin",
+                    },
+                    {
+                      "type": "string",
+                      "const": "Phone",
                     },
                     {
                       "type": "string",
@@ -274,11 +439,15 @@ const manifest: DecoManifest = {
                     },
                     {
                       "type": "string",
+                      "const": "Trash",
+                    },
+                    {
+                      "type": "string",
                       "const": "FilterList",
                     },
                     {
                       "type": "string",
-                      "const": "ChevronUp",
+                      "const": "WhatsApp",
                     },
                   ],
                   "title": "Icon",
@@ -357,15 +526,19 @@ const manifest: DecoManifest = {
                             "anyOf": [
                               {
                                 "type": "string",
-                                "const": "Circle",
-                              },
-                              {
-                                "type": "string",
                                 "const": "ChevronLeft",
                               },
                               {
                                 "type": "string",
                                 "const": "ChevronRight",
+                              },
+                              {
+                                "type": "string",
+                                "const": "ChevronUp",
+                              },
+                              {
+                                "type": "string",
+                                "const": "ChevronDown",
                               },
                               {
                                 "type": "string",
@@ -394,6 +567,22 @@ const manifest: DecoManifest = {
                               {
                                 "type": "string",
                                 "const": "XMark",
+                              },
+                              {
+                                "type": "string",
+                                "const": "Plus",
+                              },
+                              {
+                                "type": "string",
+                                "const": "Minus",
+                              },
+                              {
+                                "type": "string",
+                                "const": "MapPin",
+                              },
+                              {
+                                "type": "string",
+                                "const": "Phone",
                               },
                               {
                                 "type": "string",
@@ -453,11 +642,15 @@ const manifest: DecoManifest = {
                               },
                               {
                                 "type": "string",
+                                "const": "Trash",
+                              },
+                              {
+                                "type": "string",
                                 "const": "FilterList",
                               },
                               {
                                 "type": "string",
-                                "const": "ChevronUp",
+                                "const": "WhatsApp",
                               },
                             ],
                             "title": "Icon",
@@ -543,7 +736,7 @@ const manifest: DecoManifest = {
           "navItems": {
             "type": "array",
             "items": {
-              "title": "Item",
+              "title": "NavItem",
               "type": "object",
               "properties": {
                 "label": {
@@ -568,6 +761,27 @@ const manifest: DecoManifest = {
                         "type": "string",
                         "title": "Href",
                       },
+                      "children": {
+                        "title": "Children",
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "label": {
+                              "type": "string",
+                              "title": "Label",
+                            },
+                            "href": {
+                              "type": "string",
+                              "title": "Href",
+                            },
+                          },
+                          "required": [
+                            "label",
+                            "href",
+                          ],
+                        },
+                      },
                     },
                     "required": [
                       "label",
@@ -575,11 +789,29 @@ const manifest: DecoManifest = {
                     ],
                   },
                 },
+                "image": {
+                  "title": "Image",
+                  "type": "object",
+                  "properties": {
+                    "src": {
+                      "format": "image-uri",
+                      "type": "string",
+                      "title": "Src",
+                    },
+                    "alt": {
+                      "type": [
+                        "string",
+                        "null",
+                      ],
+                      "title": "Alt",
+                    },
+                  },
+                  "required": [],
+                },
               },
               "required": [
                 "label",
                 "href",
-                "children",
               ],
             },
             "title": "Navigation items",
@@ -587,11 +819,24 @@ const manifest: DecoManifest = {
               "Navigation items used both on mobile and desktop menus",
           },
           "products": {
-            "$id": "4745e1202484ea61e4cdd1a83ec4c56d9e4dce67",
+            "$id": "1f15a836acd2ecbefef6eaf34ebcff98e39811f3",
             "format": "live-function",
             "type": "string",
             "title": "Product suggestions",
             "description": "Product suggestions displayed on search",
+          },
+          "suggestions": {
+            "$id": "664f9b3b60b4a75294c340d8218b4ad76821fd58",
+            "format": "live-function",
+            "type": "string",
+            "title": "Enable Top Search terms",
+          },
+          "configVTEX": {
+            "$id": "4a94f4ff0e8e4441f26651aaed22f0df82f38c93",
+            "format": "live-function",
+            "type": "string",
+            "title": "Config V T E X",
+            "description": "vtex config used for search autocompletion;",
           },
         },
         "required": [
@@ -673,7 +918,7 @@ const manifest: DecoManifest = {
         "type": "object",
         "properties": {
           "page": {
-            "$id": "05ecb684cf4ee00e98171fdc45227df637e4804e",
+            "$id": "9ba29fcac079080c6f7cf16f40f91cf15a25d53f",
             "format": "live-function",
             "type": "string",
             "title": "Page",
@@ -695,10 +940,17 @@ const manifest: DecoManifest = {
             "title": "Title",
           },
           "products": {
-            "$id": "4745e1202484ea61e4cdd1a83ec4c56d9e4dce67",
+            "$id": "1f15a836acd2ecbefef6eaf34ebcff98e39811f3",
             "format": "live-function",
             "type": "string",
             "title": "Products",
+          },
+          "itemsPerPage": {
+            "type": [
+              "number",
+              "null",
+            ],
+            "title": "Items Per Page",
           },
         },
         "required": [
@@ -854,7 +1106,7 @@ const manifest: DecoManifest = {
         "type": "object",
         "properties": {
           "page": {
-            "$id": "05ecb684cf4ee00e98171fdc45227df637e4804e",
+            "$id": "9ba29fcac079080c6f7cf16f40f91cf15a25d53f",
             "format": "live-function",
             "type": "string",
             "title": "Page",
@@ -863,6 +1115,23 @@ const manifest: DecoManifest = {
         "required": [
           "page",
         ],
+      },
+      "outputSchema": null,
+    },
+    "./sections/WhatsApp.tsx": {
+      "inputSchema": {
+        "title": " Whats App",
+        "type": "object",
+        "properties": {
+          "phone": {
+            "type": [
+              "number",
+              "null",
+            ],
+            "title": "Phone",
+          },
+        },
+        "required": [],
       },
       "outputSchema": null,
     },
